@@ -34,16 +34,14 @@ app.get('/', (req, res) => {
 
 
 app.get('/list', (req, res) => {
-    const sqlQuery = "SELECT * FROM board";
-    db.query(sqlQuery, function (err, result) {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Error occurred');
-      }
-      
+    //res.send('Hello World!');
+    const sqlQeury = "SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, DATE_FORMAT(REGISTER_DATE, '%Y-%m-%d') AS REGISTER_DATE  FROM board";
+    db.query(sqlQeury, function(err, result) {
+      if (err) throw err;
       res.send(result);
     });
   });
+  
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
