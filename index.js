@@ -4,6 +4,10 @@ const app = express();
 const port = 4000; // process.env.PORT 사용
 const mysql = require('mysql');
 
+
+app.use(express.json()); //json은 말 그대로 JSON 형태의 데이터 전달을 의미하고, 
+app.use(express.urlencoded({extended: false}));
+
 let corsOptions = {
     origin: '*',
     credentials: true // 사용자 인증에 필요한 리소스 허용
@@ -42,6 +46,19 @@ app.get('/list', (req, res) => {
     });
   });
   
+
+app.post('/insert', (req, res) => {
+  // const title = req.body.title;
+  // const content = req.body.content;
+  const {title, content} = req.body;
+
+  const sqlQeury = "INSERT INTO board (BOARD_TITLE,BOARD_CONTENT,REGISTER_ID ) values (?, ?,'admin') ";
+  db.query(sqlQeury,[title,content], function(err, result) {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
