@@ -35,6 +35,19 @@ app.get("/", (req, res) => {
   });
 });
 
+app.post("/insert", (req, res) => {
+  // const title = req.body.title;
+  // const content = req.body.content;
+  const { title, content } = req.body;
+
+  const sqlQeury =
+    "INSERT INTO board (BOARD_TITLE,BOARD_CONTENT,REGISTER_ID ) values (?, ?,'admin') ";
+  db.query(sqlQeury, [title, content], function (err, result) {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 app.get("/list", (req, res) => {
   //res.send('Hello World!');
   const sqlQeury =
@@ -69,16 +82,17 @@ app.post("/update", (req, res) => {
   });
 });
 
-app.post("/insert", (req, res) => {
-  // const title = req.body.title;
-  // const content = req.body.content;
-  const { title, content } = req.body;
+app.post("/delete", (req, res) => {
+  //res.send('Hello World!');
+  const id = req.body.boardIdList;
+  console.log(id);
+  //배열을 문자열로 바꿔야 한다.
 
-  const sqlQeury =
-    "INSERT INTO board (BOARD_TITLE,BOARD_CONTENT,REGISTER_ID ) values (?, ?,'admin') ";
-  db.query(sqlQeury, [title, content], function (err, result) {
+  const sqlQeury = `DELETE FROM BOARD where BOARD_ID in (${id})`;
+  db.query(sqlQeury, [id], (err, result) => {
     if (err) throw err;
     res.send(result);
+    console.log(result);
   });
 });
 
