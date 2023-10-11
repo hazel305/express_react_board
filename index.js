@@ -51,7 +51,7 @@ app.post("/insert", (req, res) => {
 app.get("/list", (req, res) => {
   //res.send('Hello World!');
   const sqlQeury =
-    "SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, DATE_FORMAT(REGISTER_DATE, '%Y-%m-%d') AS REGISTER_DATE  FROM board";
+    "SELECT BOARD_ID, BOARD_TITLE, REGISTER_ID, DATE_FORMAT(REGISTER_DATE, '%Y-%m-%d') AS REGISTER_DATE  FROM board order by BOARD_ID desc";
   db.query(sqlQeury, function (err, result) {
     if (err) throw err;
     res.send(result);
